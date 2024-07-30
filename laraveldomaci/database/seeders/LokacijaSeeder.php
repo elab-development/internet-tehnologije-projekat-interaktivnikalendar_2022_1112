@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\Lokacija;
+
 class LokacijaSeeder extends Seeder
 {
     /**
@@ -12,6 +14,6 @@ class LokacijaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Lokacija::factory()->count(5)->create();
     }
 }
