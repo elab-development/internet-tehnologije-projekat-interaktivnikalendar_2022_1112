@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DogadjajResource extends JsonResource
+class LokacijaResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,10 @@ class DogadjajResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'naziv' => $this->resource->naziv,
-            'opis' => $this->resource->opis,
-            'datum' => $this->resource->datum,
-            'lokacija_id' => new LokacijaResource($this->resource->lokacija),
-            'user_id' => new UserResource($this->resource->user),
+            'adresa' => $this->resource->adresa,
+            'grad' => $this->resource->grad,
+            'drzava' => $this->resource->drzava,
+            'poštanski_kod' => $this->resource->poštanski_kod,
         ];
     }
 }
