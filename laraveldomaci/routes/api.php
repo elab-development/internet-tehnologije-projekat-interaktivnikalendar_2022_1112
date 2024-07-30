@@ -14,6 +14,7 @@ use App\Http\Controllers\LokacijaController;
 |--------------------------------------------------------------------------
 */
 
+// Autentifikacija
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('resetPassword',[AuthController::class,'resetPassword']);
@@ -30,11 +31,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::patch('dogadjaji/updateOpis/{id}', [DogadjajController::class, 'updateOpis']);
     Route::delete('dogadjaji/{id}', [DogadjajController::class, 'destroy']); 
 
-    Route::post('logout', [AuthController::class, 'logout']);
-
     // lokacijama mogu pristupati samo administratori
     Route::get('/lokacije', [LokacijaController::class, 'index']);
     Route::post('lokacije', [LokacijaController::class, 'store']);
     Route::put('lokacije/{id}', [LokacijaController::class, 'update']);
     Route::delete('lokacije/{id}', [LokacijaController::class, 'destroy']);
+
+    // Odjavljivanje
+    Route::post('logout', [AuthController::class, 'logout']);
 });
