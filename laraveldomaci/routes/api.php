@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DogadjajController;
+use App\Http\Controllers\LokacijaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ Route::resource('users', UserController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
-    //Rute vezane za dogadjaje
+    //Rute vezane za dogadjaje - njima mogu pristupati prijavljeni korisnici samo
     Route::get('dogadjaji', [DogadjajController::class, 'index']);
     Route::get('dogadjaji/{id}', [DogadjajController::class, 'show']); 
     Route::post('dogadjaji', [DogadjajController::class, 'store']);
@@ -30,5 +31,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::delete('dogadjaji/{id}', [DogadjajController::class, 'destroy']); 
 
     Route::post('logout', [AuthController::class, 'logout']);
-    
+
+    // lokacijama mogu pristupati samo administratori
+    Route::get('/lokacije', [LokacijaController::class, 'index']);
+    Route::post('lokacije', [LokacijaController::class, 'store']);
+    Route::put('lokacije/{id}', [LokacijaController::class, 'update']);
+    Route::delete('lokacije/{id}', [LokacijaController::class, 'destroy']);
 });
