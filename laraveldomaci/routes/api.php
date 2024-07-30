@@ -20,6 +20,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('resetPassword',[AuthController::class,'resetPassword']);
 
 Route::resource('users', UserController::class);
+Route::get('/users', [UserController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 

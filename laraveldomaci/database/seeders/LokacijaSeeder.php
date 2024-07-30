@@ -14,6 +14,6 @@ class LokacijaSeeder extends Seeder
      */
     public function run(): void
     {
-        Lokacija::factory()->count(5)->create();
+        Lokacija::factory()->count(15)->create();
     }
 }

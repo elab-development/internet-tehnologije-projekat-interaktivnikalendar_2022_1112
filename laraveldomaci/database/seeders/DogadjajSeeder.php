@@ -14,9 +14,9 @@ class DogadjajSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             Dogadjaj::factory()->create([
-                'lokacija_id' => rand(1, 10),
+                'lokacija_id' => rand(1, 15),
                 'user_id' => rand(2,5),
             ]);
         }
