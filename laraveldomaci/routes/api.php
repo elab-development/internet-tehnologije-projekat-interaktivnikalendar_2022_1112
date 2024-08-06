@@ -25,7 +25,11 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/weather/{city}', [WeatherController::class, 'getCurrentWeather']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
     //Rute vezane za dogadjaje - njima mogu pristupati prijavljeni korisnici samo
     Route::get('dogadjaji', [DogadjajController::class, 'index']);

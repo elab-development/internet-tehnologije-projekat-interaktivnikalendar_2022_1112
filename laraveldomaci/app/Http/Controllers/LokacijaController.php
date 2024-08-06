@@ -10,6 +10,28 @@ use Illuminate\Support\Facades\Validator;
 
 class LokacijaController extends Controller
 {
+
+    // Vracanje specificne lokacije ili sve postojece
+    public function index(Request $request)
+    {
+         if ($request->has('naziv')) {
+            // Ako u zahtevu prosledjujemo naziv, vraca se pronadjena lokacija po svom ID
+            $naziv = $request->input('naziv');
+            $lokacija = Lokacija::where('naziv', $naziv)->first();
+
+            if ($lokacija) {
+                 return response()->json(['id' => $lokacija->id]);
+             } else {
+                return response()->json(['error' => 'Lokacija nije pronađena'], 404);
+            }
+            
+            } else {
+            // U suprotnom slucaju, vrati mi sve lokacije
+            $lokacije = Lokacija::all();
+            return response()->json(['lokacije' => LokacijaResource::collection($lokacije)]);
+            }
+        }
+
     // Pamcenje nove lokacije
 
     public function store(Request $request)
@@ -19,7 +41,7 @@ class LokacijaController extends Controller
             'adresa' => 'required',
             'grad' => 'required',
             'drzava' => 'required',
-            'poštanski_kod' => 'required',
+            'poštanski_kod' => 'required', 
         ]);
 
         if ($validator->fails()) {
@@ -75,28 +97,10 @@ class LokacijaController extends Controller
         $lokacija->save();
 
         return response()->json(['Uspešno ažurirana lokacija!', new LokacijaResource($lokacija)]);
-}
+    }
 
 
-        public function index(Request $request)
-        {
-            if ($request->has('naziv')) {
-                // Ako u zahtevu prosledjujemo naziv, vraca se pronadjena lokacija po svom ID
-                $naziv = $request->input('naziv');
-                $lokacija = Lokacija::where('naziv', $naziv)->first();
-
-                if ($lokacija) {
-                    return response()->json(['id' => $lokacija->id]);
-                } else {
-                    return response()->json(['error' => 'Lokacija nije pronađena'], 404);
-                }
-            } else {
-                // U suprotnom slucaju, vrati mi sve lokacije
-                $lokacije = Lokacija::all();
-                return response()->json(['lokacije' => LokacijaResource::collection($lokacije)]);
-            }
-        }
-
+    // Brisanje lokacija
     public function destroy($id)
     {
 

@@ -74,10 +74,17 @@ class AuthController extends Controller
 
     // Funkcija za odjavljivanje
     public function logout()
-    {
+{
+    if (auth()->check()) {
         auth()->user()->tokens()->delete();
         return response()->json('Uspesan logout korisnika.');
     }
+
+    return response()->json('Neuspesan logout. Korisnik nije prijavljen.', 401);
+}
+
+
+    
 
     // Funkcija za resetovanje passworda
     public function resetPassword(Request $request)
