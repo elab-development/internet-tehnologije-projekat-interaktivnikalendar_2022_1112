@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DogadjajController;
 use App\Http\Controllers\LokacijaController;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ Route::post('resetPassword',[AuthController::class,'resetPassword']);
 
 Route::resource('users', UserController::class);
 Route::get('/users', [UserController::class, 'index']);
+
+Route::get('/weather/{city}', [WeatherController::class, 'getCurrentWeather']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
