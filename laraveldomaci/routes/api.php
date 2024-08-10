@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DogadjajController;
 use App\Http\Controllers\LokacijaController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\IcsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::resource('users', UserController::class);
 Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/weather/{city}', [WeatherController::class, 'getCurrentWeather']);
+Route::get('/export', [IcsController::class, 'export']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
