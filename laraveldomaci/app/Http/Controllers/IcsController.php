@@ -35,4 +35,21 @@ class IcsController extends Controller
             ->header('Content-Type', 'text/calendar')
             ->header('Content-Disposition', 'attachment; filename="exportDogadjaja.ics"');
     }
+
+    // Exportovanje pojedinacnih dogadjaja
+    public function exportSingle($id)
+    {
+        $dogadjaj = Dogadjaj::findOrFail($id);
+
+        $event = Event::create()
+            ->name($dogadjaj->naziv)
+            ->description($dogadjaj->opis)
+            ->startsAt(DateTime::createFromFormat('Y-m-d H:i:s', $dogadjaj->datum));
+
+        $calendar = Calendar::create('My Event')->event($event);
+
+        return response($calendar->get())
+            ->header('Content-Type', 'text/calendar')
+            ->header('Content-Disposition', 'attachment; filename="event_' . $id . '.ics"');
+    }
 }

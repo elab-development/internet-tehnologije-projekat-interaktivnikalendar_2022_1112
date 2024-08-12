@@ -19,6 +19,15 @@ class DogadjajController extends Controller
         $dogadjaji = Dogadjaj::all();
         return DogadjajResource::collection($dogadjaji);
     }
+    // Prikaz svih dogadjaja, za prikaz u okviru Laravel Blade-a
+    public function indexView()
+{    
+    // Fetch paginated events
+    $dogadjaji = Dogadjaj::paginate(4);
+
+    // Return the view with the paginated events
+    return view('welcome', ['dogadjaji' => $dogadjaji]);
+}
 
     // Prikazivanje pojedinacnog dogadjaja
     public function show($id)

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DogadjajController;
+use App\Http\Controllers\IcsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [DogadjajController::class, 'indexView']);
+
+// Ruta za eksport svih dogadjaja odjednom u .ics datoteku
+Route::get('/dogadjaj/export-all', [IcsController::class, 'export'])->name('ics-export-all');
+
+// Ruta za eksport pojedinacnih dogadjaja u .ics datoteku
+Route::get('/dogadjaj/export/{id}', [IcsController::class, 'exportSingle'])->name('ics-export');
+
