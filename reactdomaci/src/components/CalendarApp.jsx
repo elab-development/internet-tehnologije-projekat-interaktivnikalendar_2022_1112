@@ -22,6 +22,9 @@ const CalendarApp = () => {
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [showEventPopup, setShowEventPopup] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [eventTime, setEventTime] = useState({ hours: "00", minutes: "0" });
+  const [eventText, setEventText] = useState("");
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); //koliko mesec ima dana
   const firstDayOfMonth =
@@ -50,6 +53,8 @@ const CalendarApp = () => {
     if (clickedDate >= today || isSameDay(clickedDate, today)) {
       setSelectedDate(clickedDate);
       setShowEventPopup(true);
+      setEventTime({ hours: "00", minutes: "0" });
+      setEventText("");
     }
   };
 
@@ -60,6 +65,21 @@ const CalendarApp = () => {
       date1.getMonth() === date2.getMonth() &&
       date1.getDate() === date2.getDate()
     );
+  };
+
+  const handleEventSubmit = () => {
+    const newEvent = {
+      date: selectedDate,
+      time: `${eventTime.hours.padStart(2, "0")}:${eventTime.minutes.padStart(
+        2,
+        "0"
+      )}`, //dodajemo nulu kako bi uvek imali 2 karaktera ukupno za vreme
+      text: eventText,
+    };
+    setEvents([...events, newEvent]);
+    setEventTime({ hours: "00", minutes: "00" });
+    setEventText("");
+    setShowEventPopup(false);
   };
 
   return (
@@ -111,6 +131,10 @@ const CalendarApp = () => {
                 min={0}
                 max={24}
                 className="hours"
+                value={eventTime.hours}
+                onChange={
+                  (e) => setEventTime({ ...eventTime, hours: e.target.value }) //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za sate!
+                }
               />
               <input
                 type="number"
@@ -118,9 +142,21 @@ const CalendarApp = () => {
                 min={0}
                 max={60}
                 className="minutes"
+                value={eventTime.minutes}
+                onChange={
+                  (e) => setEventTime({ ...eventTime, minutes: e.target.value }) //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za minute!
+                }
               />
             </div>
-            <textarea placeholder="Enter Event Text (Maximum 60 characters)"></textarea>
+            <textarea
+              placeholder="Unesi tekst dogadjaja sa maksimalno 60 karaktera..."
+              value={eventText}
+              onChange={(e) => {
+                if (e.target.value.length <= 60) {
+                  setEventText(e.target.value);
+                }
+              }}
+            ></textarea>
             <button className="event-popup-btn">Add Event</button>
             <button
               className="close-event-popup"
