@@ -25,6 +25,7 @@ const CalendarApp = () => {
   const [events, setEvents] = useState([]);
   const [eventTime, setEventTime] = useState({ hours: "00", minutes: "00" });
   const [eventText, setEventText] = useState("");
+  const [editingEvent, setEditingEvent] = useState(null);
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); //koliko mesec ima dana
   const firstDayOfMonth =
@@ -55,6 +56,7 @@ const CalendarApp = () => {
       setShowEventPopup(true);
       setEventTime({ hours: "00", minutes: "00" });
       setEventText("");
+      setEditingEvent(null);
     }
   };
 
@@ -69,6 +71,7 @@ const CalendarApp = () => {
 
   const handleEventSubmit = () => {
     const newEvent = {
+      id: editingEvent ? editingEvent.id : Date.now(), //id nam je vreme kada se editovanje pokrene
       date: selectedDate,
       time: `${eventTime.hours.padStart(2, "0")}:${eventTime.minutes.padStart(
         2,
@@ -76,10 +79,40 @@ const CalendarApp = () => {
       )}`, //dodajemo nulu kako bi uvek imali 2 karaktera ukupno za vreme
       text: eventText,
     };
-    setEvents([...events, newEvent]);
+
+    let updatedEvents = [...events];
+    if (editingEvent) {
+      //ako nije null, znaci da editujemo
+      updatedEvents = updatedEvents.map(
+        (event) => (event.id === editingEvent.id ? newEvent : event) //ovime osiguravamo da dogadjaj sa id-jem koji je isti kao editing id se menja sa detaljima koje korisnik zeli da promeni
+      );
+    } else {
+      updatedEvents.push(newEvent); //i dalje kreiramo novi dogadjaj kada nije izmena u pitanju
+    }
+
+    updatedEvents.sort((a, b) => new Date(a.date) - new Date(b.date)); //sortiramo dogadjaje hronoloski
+    // ako je rezultat oduzimanja negativan, znaci da prvo ide dogadjaj a pa b
+    // ako je rezultat oduzimanja 0, znaci da nema izmene, u isto vreme su kreirani
+    // ako je rezultat oduzimanja pozitivan, znaci da prvo ide dogadjaj b pa a
+
+    setEvents(updatedEvents);
     setEventTime({ hours: "00", minutes: "00" });
     setEventText("");
     setShowEventPopup(false);
+    setEditingEvent(null);
+  };
+
+  //Funkcija za editovanje dogadjaja, sa parametrom event koji se odnosi na dogadjaj koji se azurira
+  const handleEditEvent = (event) => {
+    setSelectedDate(new Date(event.date));
+    setEventTime({
+      //azuriranje vremena dogadjaja
+      hours: event.time.split(":")[0],
+      minutes: event.time.split(":")[1],
+    });
+    setEventText(event.text); //azuriranje teksta dogadjaja
+    setEditingEvent(event);
+    setShowEventPopup(true);
   };
 
   return (
@@ -178,7 +211,10 @@ const CalendarApp = () => {
             </div>
             <div className="event-text">{event.text}</div>
             <div className="event-buttons">
-              <i className="bx bxs-edit-alt"></i>
+              <i
+                className="bx bxs-edit-alt"
+                onClick={() => handleEditEvent(event)}
+              ></i>
               <i className="bx bxs-message-alt-x"></i>
             </div>
           </div>
