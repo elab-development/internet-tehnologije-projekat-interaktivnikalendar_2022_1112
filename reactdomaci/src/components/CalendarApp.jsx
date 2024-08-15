@@ -121,6 +121,14 @@ const CalendarApp = () => {
     setEvents(updatedEvents);
   };
 
+  const handleTimeChange = (e) => {
+    const { name, value } = e.target;
+    setEventTime((prevTime) => ({
+      ...prevTime,
+      [name]: value.padStart(2, "0"),
+    }));
+  };
+
   return (
     <div className="calendar-app">
       <div className="calendar">
@@ -172,7 +180,7 @@ const CalendarApp = () => {
                 className="hours"
                 value={eventTime.hours}
                 onChange={
-                  (e) => setEventTime({ ...eventTime, hours: e.target.value }) //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za sate!
+                  handleTimeChange //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za sate!
                 }
               />
               <input
@@ -183,7 +191,7 @@ const CalendarApp = () => {
                 className="minutes"
                 value={eventTime.minutes}
                 onChange={
-                  (e) => setEventTime({ ...eventTime, minutes: e.target.value }) //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za minute!
+                  handleTimeChange //na ovaj nacin sinhronizujemo vrednost prikazanu u pretrazivacu sa promenljivom koju ovde pratimo za minute!
                 }
               />
             </div>
