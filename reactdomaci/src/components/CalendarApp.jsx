@@ -115,6 +115,12 @@ const CalendarApp = () => {
     setShowEventPopup(true);
   };
 
+  //Funkcija brisanja dogadjaja
+  const handleDeleteEvent = (eventId) => {
+    const updatedEvents = events.filter((event) => event.id !== eventId); //azuriramo listu dogadjaja da sadrzi sve dogadaje osim onog koga sada uklanjamo
+    setEvents(updatedEvents);
+  };
+
   return (
     <div className="calendar-app">
       <div className="calendar">
@@ -215,7 +221,10 @@ const CalendarApp = () => {
                 className="bx bxs-edit-alt"
                 onClick={() => handleEditEvent(event)}
               ></i>
-              <i className="bx bxs-message-alt-x"></i>
+              <i
+                className="bx bxs-message-alt-x"
+                onClick={() => handleDeleteEvent(event.id)}
+              ></i>
             </div>
           </div>
         ))}
