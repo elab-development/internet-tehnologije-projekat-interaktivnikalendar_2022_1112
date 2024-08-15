@@ -23,7 +23,7 @@ const CalendarApp = () => {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [showEventPopup, setShowEventPopup] = useState(false);
   const [events, setEvents] = useState([]);
-  const [eventTime, setEventTime] = useState({ hours: "00", minutes: "0" });
+  const [eventTime, setEventTime] = useState({ hours: "00", minutes: "00" });
   const [eventText, setEventText] = useState("");
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); //koliko mesec ima dana
@@ -53,7 +53,7 @@ const CalendarApp = () => {
     if (clickedDate >= today || isSameDay(clickedDate, today)) {
       setSelectedDate(clickedDate);
       setShowEventPopup(true);
-      setEventTime({ hours: "00", minutes: "0" });
+      setEventTime({ hours: "00", minutes: "00" });
       setEventText("");
     }
   };
@@ -157,7 +157,9 @@ const CalendarApp = () => {
                 }
               }}
             ></textarea>
-            <button className="event-popup-btn">Add Event</button>
+            <button className="event-popup-btn" onClick={handleEventSubmit}>
+              Dodaj dogadjaj!
+            </button>
             <button
               className="close-event-popup"
               onClick={() => setShowEventPopup(false)}
@@ -166,18 +168,21 @@ const CalendarApp = () => {
             </button>
           </div>
         )}
-
-        <div className="event">
-          <div className="event-date-wrapper">
-            <div className="event-date">May 15, 2024</div>
-            <div className="event-time">10:00</div>
+        {events.map((event, index) => (
+          <div className="event" key={index}>
+            <div className="event-date-wrapper">
+              <div className="event-date">{`${
+                monthsOfYear[event.date.getMonth()]
+              } ${event.date.getDate()}, ${event.date.getFullYear()}`}</div>
+              <div className="event-time">{event.time}</div>
+            </div>
+            <div className="event-text">{event.text}</div>
+            <div className="event-buttons">
+              <i className="bx bxs-edit-alt"></i>
+              <i className="bx bxs-message-alt-x"></i>
+            </div>
           </div>
-          <div className="event-text">Meeting with John</div>
-          <div className="event-buttons">
-            <i className="bx bxs-edit-alt"></i>
-            <i className="bx bxs-message-alt-x"></i>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
