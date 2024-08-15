@@ -22,7 +22,8 @@ const CalendarApp = () => {
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); //koliko mesec ima dana
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); //kojim danom se pocinje mesec
+  const firstDayOfMonth =
+    (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7; //kojim danom se pocinje mesec, ako racunamo da je prvi dan u mesecu ponedeljak!
 
   //iteriranje za prelazak na prethodni mesec
   const prevMonth = () => {
@@ -44,8 +45,8 @@ const CalendarApp = () => {
       <div className="calendar">
         <h1 className="heading"> Calendar </h1>
         <div className="navigate-date">
-          <h2 className="month">May,</h2>
-          <h2 className="year">2024</h2>
+          <h2 className="month">{monthsOfYear[currentMonth]}</h2>
+          <h2 className="year">{currentYear}</h2>
           <div className="buttons">
             <i className="bx bx-chevron-left" onClick={prevMonth}></i>
             <i className="bx bx-chevron-right" onClick={nextMonth}></i>
