@@ -191,7 +191,7 @@ const CalendarApp = () => {
               }}
             ></textarea>
             <button className="event-popup-btn" onClick={handleEventSubmit}>
-              Dodaj dogadjaj!
+              {editingEvent ? "Azuriraj dogadjaj!" : "Dodaj novi dogadjaj!"}
             </button>
             <button
               className="close-event-popup"
