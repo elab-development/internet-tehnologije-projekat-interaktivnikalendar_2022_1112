@@ -6,8 +6,12 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <h1 className="heading"> Pocetna stranica React aplikacije </h1>
-      <WeatherDisplay />
+      <div className="calendar-app">
+        <div className="content">
+          <h1 className="heading"> Pocetna stranica React aplikacije </h1>
+          <WeatherDisplay />
+        </div>
+      </div>
     </div>
   );
 };

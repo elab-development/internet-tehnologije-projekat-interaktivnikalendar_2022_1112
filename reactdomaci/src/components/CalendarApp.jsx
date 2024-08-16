@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
 const CalendarApp = () => {
   const daysOfWeek = ["Pon", "Uto", "Sre", "Cet", "Pet", "Sub", "Ned"];
@@ -22,7 +23,22 @@ const CalendarApp = () => {
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [showEventPopup, setShowEventPopup] = useState(false);
-  const [events, setEvents] = useState([]);
+
+  const [events, setEvents] = useState(() => {
+    const savedEvents = localStorage.getItem("events");
+    return savedEvents
+      ? JSON.parse(savedEvents).map((event) => ({
+          ...event,
+          date: new Date(event.date), // Convert date string back to Date object
+        }))
+      : [];
+  });
+
+  // Save events to localStorage whenever the events state changes
+  useEffect(() => {
+    localStorage.setItem("events", JSON.stringify(events));
+  }, [events]);
+
   const [eventTime, setEventTime] = useState({ hours: "00", minutes: "00" });
   const [eventText, setEventText] = useState("");
   const [editingEvent, setEditingEvent] = useState(null);
@@ -76,8 +92,8 @@ const CalendarApp = () => {
       time: `${eventTime.hours.padStart(2, "0")}:${eventTime.minutes.padStart(
         2,
         "0"
-      )}`, //dodajemo nulu kako bi uvek imali 2 karaktera ukupno za vreme
-      text: eventText,
+      )}`,
+      text: eventText, //dodajemo nulu kako bi uvek imali 2 karaktera ukupno za vreme
     };
 
     let updatedEvents = [...events];
