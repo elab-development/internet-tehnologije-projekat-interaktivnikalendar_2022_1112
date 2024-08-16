@@ -2,26 +2,29 @@ import React from "react";
 import useForm from "../hooks/useForm";
 import InputField from "./InputField";
 import Button from "./Button";
+import "./ContactForm.css";
 
 const ContactForm = () => {
   const { values, handleChange, handleSubmit } = useForm(
     { name: "", email: "", message: "" },
     (formValues) => {
-      console.log("Form submitted with values:", formValues);
-      alert("Form submitted successfully!");
+      console.log("Forma popunjena sledecim vrednostima:", formValues);
+      alert("Zahtev uspesno prosledjen!");
     }
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleSubmit}>
       <InputField
-        label="Name"
+        className="input-field"
+        label="Ime"
         type="text"
         value={values.name}
         onChange={handleChange}
         name="name"
       />
       <InputField
+        className="input-field"
         label="Email"
         type="email"
         value={values.email}
@@ -29,13 +32,14 @@ const ContactForm = () => {
         name="email"
       />
       <InputField
-        label="Message"
+        className="input-field"
+        label="Poruka"
         type="text"
         value={values.message}
         onChange={handleChange}
         name="message"
       />
-      <Button text="Submit" />
+      <Button className="custom-button" text="Submit" />
     </form>
   );
 };

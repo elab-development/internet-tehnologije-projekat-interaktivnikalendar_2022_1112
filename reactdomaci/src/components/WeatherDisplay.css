@@ -1,0 +1,67 @@
+.weather-display {
+  width: 90%;
+  margin: auto;
+  background-color: #354358;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 0.4rem solid #a2a5a9;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  color: #ddd;
+  font-family: "Bebas Neue", sans-serif;
+  position: relative;
+}
+
+.weather-display h2 {
+  font-size: clamp(2rem, 2cqi, 3rem);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.weather-display p {
+  font-size: clamp(1.5rem, 1.5cqi, 2rem);
+  color: #ef9011;
+  text-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.4);
+  margin: 0;
+}
+
+@media (max-width: 850px) {
+  .weather-display {
+    width: 70%;
+    aspect-ratio: 3 / 2;
+    padding: 2rem;
+    row-gap: 1.5rem;
+  }
+
+  .weather-display h2 {
+    font-size: clamp(1.8rem, 1.8cqi, 2.5rem);
+  }
+
+  .weather-display p {
+    font-size: clamp(1.2rem, 1.2cqi, 1.8rem);
+  }
+}
+
+@media (max-width: 500px) {
+  .weather-display {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .weather-display::after {
+    bottom: -8rem;
+    height: 12rem;
+    border-radius: 10rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .weather-display {
+    aspect-ratio: 4 / 3;
+  }
+}

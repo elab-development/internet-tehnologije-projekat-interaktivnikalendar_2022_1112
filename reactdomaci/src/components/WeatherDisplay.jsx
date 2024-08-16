@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./WeatherDisplay.css";
 
 const WeatherDisplay = () => {
   const [weather, setWeather] = useState(null);
@@ -19,9 +20,9 @@ const WeatherDisplay = () => {
 
   return (
     <div className="weather-display">
-      <h2>Weather in {weather.name}</h2>
-      <p>Temperature: {weather.main.temp}°C</p>
-      <p>Condition: {weather.weather[0].description}</p>
+      <h2>Vreme danas u {weather.name}</h2>
+      <p>Temperatura: {weather.main.temp}°C</p>
+      <p>Vremenski uslovi: {weather.weather[0].description}</p>
     </div>
   );
 };

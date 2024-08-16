@@ -1,7 +1,7 @@
 .calendar-app {
-  width: 60%;
-  min-width: 90vmin;
-  aspect-ratio: 3 / 2;
+  width: 80%;
+  min-width: 100vmin;
+  aspect-ratio: 4 / 3;
   background-color: #1e242d;
   padding: 3rem;
   border-radius: 3rem;
@@ -10,6 +10,7 @@
   column-gap: 5rem;
   position: relative;
   transform-style: preserve-3d;
+  overflow: hidden;
 }
 
 .calendar-app::after {
@@ -288,17 +289,18 @@
 @media (max-width: 850px) {
   .calendar-app {
     flex-direction: column;
-    row-gap: 2rem;
-    aspect-ratio: 3/2;
+    row-gap: 1rem;
+    max-height: 50rem;
+    overflow: hidden; /* Added to hide overflow */
   }
 
   .calendar {
-    width: 70%;
+    width: 50%;
     margin: auto;
   }
 
   .navigate-date {
-    margin: 1rem 0;
+    margin: -0.5rem 0;
   }
 
   .weekdays {
@@ -308,6 +310,8 @@
   .events {
     width: 80%;
     margin: auto;
+    height: calc(100% - 3rem); /* Adjust height for smaller screens */
+    padding: 0; /* Removed top and bottom padding */
   }
 
   .event-popup {
@@ -356,10 +360,11 @@
 
 @media (max-width: 500px) {
   .calendar-app {
-    aspect-ratio: 10/9;
+    aspect-ratio: 9/16;
+    min-height: 115vmin;
   }
   .calendar {
-    width: 100%;
+    width: 80%;
   }
 
   .event-popup {
@@ -374,6 +379,6 @@
 
 @media (max-width: 375px) {
   .calendar-app {
-    aspect-ratio: 3/2;
+    aspect-ratio: 9/16;
   }
 }

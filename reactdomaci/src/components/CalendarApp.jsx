@@ -148,7 +148,7 @@ const CalendarApp = () => {
   return (
     <div className="calendar-app">
       <div className="calendar">
-        <h1 className="heading"> Calendar </h1>
+        <h1 className="heading"> Kalendar </h1>
         <div className="navigate-date">
           <h2 className="month">{monthsOfYear[currentMonth]},</h2>
           <h2 className="year">{currentYear}</h2>
