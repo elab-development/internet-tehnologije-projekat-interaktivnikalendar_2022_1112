@@ -5,6 +5,7 @@ import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext, getToken } from "./context/AuthContext";
 import Login from "./components/Login";
+import Events from "./components/Events";
 
 function App() {
   const { user, login } = useAuthContext();
@@ -38,6 +39,7 @@ function App() {
         path="/login"
         element={!loggedInUser ? <Login /> : <Navigate to="/" />}
       />
+      <Route path="/events" element={<Events events={events} />} />
     </Routes>
   );
 }
