@@ -6,6 +6,7 @@ import axios from "axios";
 import { useAuthContext, getToken } from "./context/AuthContext";
 import Login from "./components/Login";
 import Events from "./components/Events";
+import Form from "./components/Form";
 
 function App() {
   const { user, login } = useAuthContext();
@@ -33,6 +34,14 @@ function App() {
     axios.defaults.headers.common["Authorization"] = null;
   };
 
+  const handleAddEvent = (newEvent) => {
+    setEvents((prevEvents) => {
+      const updatedEvents = [...prevEvents, newEvent];
+      console.log(updatedEvents);
+      return updatedEvents;
+    });
+  };
+
   return (
     <Routes>
       <Route
@@ -40,6 +49,7 @@ function App() {
         element={!loggedInUser ? <Login /> : <Navigate to="/" />}
       />
       <Route path="/events" element={<Events events={events} />} />
+      <Route path="/form" element={<Form onAddEvent={handleAddEvent} />} />
     </Routes>
   );
 }

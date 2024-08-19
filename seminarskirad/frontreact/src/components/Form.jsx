@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getUserObject, getToken } from "./AuthContext";
-import { useLocationContext } from "./LocationContext";
-import { useEventContext } from "../components/EventContext";
+import { getUserObject, getToken } from "../context/AuthContext";
+import { useLocationContext } from "../context/LocationContext";
+import { useEventContext } from "../context/EventContext";
 
 const Form = ({ date, onClose, isAdminProp, locations }) => {
   const { addEvent } = useEventContext();
