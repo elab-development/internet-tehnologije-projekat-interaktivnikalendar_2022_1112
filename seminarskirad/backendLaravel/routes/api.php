@@ -9,6 +9,7 @@ use App\Http\Controllers\DogadjajController;
 use App\Http\Controllers\LokacijaController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\IcsController;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/send-email', [EmailController::class,'sendNotificationEmail']);
 
     //Rute vezane za dogadjaje - njima mogu pristupati prijavljeni korisnici samo
     Route::get('dogadjaji', [DogadjajController::class, 'index']);
