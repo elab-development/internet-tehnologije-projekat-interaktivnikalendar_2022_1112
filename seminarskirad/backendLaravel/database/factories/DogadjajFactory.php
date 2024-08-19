@@ -17,7 +17,11 @@ class DogadjajFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'naziv' => $this->faker->sentence,
+            'opis' => $this->faker->paragraph,
+            'datum' => $this->faker->dateTime('now'),
+            'lokacija_id' => $this->faker->numberBetween(1,10),
+            'user_id' => $this->faker->numberBetween(2,5),
         ];
     }
 }
