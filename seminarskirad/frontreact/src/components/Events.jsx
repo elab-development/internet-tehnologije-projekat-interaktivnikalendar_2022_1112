@@ -50,6 +50,7 @@ const formattedDateForApi = (date) =>
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  //const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingEventId, setEditingEventId] = useState(null);
   const [updatedEvent, setUpdatedEvent] = useState({});
@@ -69,6 +70,10 @@ const Events = () => {
       const eventData = responseEvents.data;
       setEvents(eventData.data);
       console.log(responseEvents.data.data);
+
+      /*const responseLocations = await axios.get('http://localhost:8000/api/lokacije');
+      const locationData = responseLocations.data;
+      setLocations(locationData);*/
     } catch (error) {
       console.error("Greška prilikom dohvatanja događaja ili lokacija:", error);
     } finally {
@@ -110,6 +115,7 @@ const Events = () => {
   };
 
   const handleUpdateEvent = async (d) => {
+    //const user = getUserObject();
     try {
       const token = getToken();
       if (!token) {
@@ -170,6 +176,31 @@ const Events = () => {
     setUpdatedEvent({ ...updatedEvent, [name]: value || "" });
   };
 
+  const handleExportICS = async () => {
+    try {
+      axios
+        .get("http://localhost:8000/api/export", { responseType: "blob" })
+        .then((r) => {
+          // create file link in browser's memory
+          const href = URL.createObjectURL(r.data);
+
+          // create "a" HTML element with href to file & click
+          const link = document.createElement("a");
+          link.href = href;
+          link.setAttribute("download", "calendar.ics");
+          document.body.appendChild(link);
+          link.click();
+
+          // clean up "a" element & remove ObjectURL
+          document.body.removeChild(link);
+          URL.revokeObjectURL(href);
+        });
+    } catch (error) {
+      console.error("Greška prilikom eksportovanja .ics fajla:", error);
+      alert("Došlo je do greške prilikom eksportovanja .ics fajla.");
+    }
+  };
+
   const handleCancelEdit = () => {
     setEditingEventId(null);
     setUpdatedEvent({});
@@ -186,7 +217,7 @@ const Events = () => {
   return (
     <div className="events-container">
       <div className="export-button">
-        <button>Eksportuj .ics</button>
+        <button onClick={handleExportICS}>Eksportuj .ics</button>
       </div>
       <ul>
         {events.map((event) => (
