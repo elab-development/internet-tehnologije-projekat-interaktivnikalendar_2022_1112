@@ -42,6 +42,12 @@ function App() {
     });
   };
 
+  let userData = window.sessionStorage.getItem("userData");
+  if (!loggedInUser && userData) {
+    setLoggedInUser(userData);
+    axios.defaults.headers.common["Authorization"] = `Bearer: ${getToken()}`;
+  }
+
   return (
     <Routes>
       <Route
