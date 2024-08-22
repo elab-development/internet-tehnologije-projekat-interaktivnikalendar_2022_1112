@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocationContext } from "../context/LocationContext";
-import { getToken } from "./AuthContext";
+import { getToken } from "../context/AuthContext";
 
 axios.interceptors.request.use(
   (config) => {

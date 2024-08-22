@@ -1,12 +1,18 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
-import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
-import { useAuthContext, getToken } from "./context/AuthContext";
+import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import { EventProvider } from "./context/EventContext";
+import NavBar from "./components/NavBar";
+import Calendar from "./components/Calendar";
 import Login from "./components/Login";
 import Events from "./components/Events";
 import Form from "./components/Form";
+import UserList from "./components/UserList";
+import UserProfile from "./components/UserProfile";
+import Lokacije from "./components/Lokacije";
+import { useAuthContext, getToken } from "./context/AuthContext";
+import { LocationProvider } from "./context/LocationContext";
 
 function App() {
   const { user, login } = useAuthContext();
@@ -49,19 +55,44 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route
-        path="/calendar"
-        element={<Calendar onDateClick={handleDateClick} />}
-      />
-
-      <Route
-        path="/login"
-        element={!loggedInUser ? <Login /> : <Navigate to="/" />}
-      />
-      <Route path="/events" element={<Events events={events} />} />
-      <Route path="/form" element={<Form onAddEvent={handleAddEvent} />} />
-    </Routes>
+    <EventProvider>
+      <LocationProvider>
+        <div className="App">
+          <NavBar loggedInUser={loggedInUser} onLogout={handleLogout} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                loggedInUser ? (
+                  <Calendar onDateClick={handleDateClick} />
+                ) : (
+                  <Login onLogin={handleLogin} />
+                )
+              }
+            />
+            <Route
+              path="/calendar"
+              element={<Calendar onDateClick={handleDateClick} />}
+            />
+            <Route
+              path="/login"
+              element={!loggedInUser ? <Login /> : <Navigate to="/" />}
+            />
+            <Route path="/events" element={<Events events={events} />} />
+            <Route
+              path="/form"
+              element={<Form onAddEvent={handleAddEvent} />}
+            />
+            <Route path="/users" element={<UserList />} />
+            <Route
+              path="/lokacije"
+              element={loggedInUser ? <Lokacije /> : ""}
+            />
+            <Route path="/users/:userId" element={<UserProfile />} />
+          </Routes>
+        </div>
+      </LocationProvider>
+    </EventProvider>
   );
 }
 

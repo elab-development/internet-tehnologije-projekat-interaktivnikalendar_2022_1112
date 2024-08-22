@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuthContext, getUserField } from "./AuthContext";
+import { useAuthContext, getUserField } from "../context/AuthContext";
 
 function NavBar({ loggedInUser, onLogout, isAdmin }) {
   return (
