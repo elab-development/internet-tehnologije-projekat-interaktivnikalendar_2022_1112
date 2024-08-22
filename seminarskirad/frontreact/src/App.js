@@ -45,6 +45,11 @@ function App() {
   return (
     <Routes>
       <Route
+        path="/calendar"
+        element={<Calendar onDateClick={handleDateClick} />}
+      />
+
+      <Route
         path="/login"
         element={!loggedInUser ? <Login /> : <Navigate to="/" />}
       />
