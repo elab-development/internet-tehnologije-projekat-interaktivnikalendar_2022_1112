@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useLocationContext } from "../context/LocationContext";
 import { getToken } from "../context/AuthContext";
@@ -28,11 +28,7 @@ const Lokacije = ({ onSelectLocation }) => {
   });
   const [izmenaLokacije, setIzmenaLokacije] = useState(null);
 
-  useEffect(() => {
-    fetchLokacije();
-  }, []);
-
-  const fetchLokacije = async () => {
+  const fetchLokacije = useCallback(async () => {
     try {
       const response = await axios.get(
         "http://localhost:8000/api/lokacije?id=1",
@@ -48,7 +44,11 @@ const Lokacije = ({ onSelectLocation }) => {
     } catch (error) {
       console.error("Greška prilikom dohvatanja lokacija:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchLokacije();
+  }, [fetchLokacije]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -184,7 +184,7 @@ const Lokacije = ({ onSelectLocation }) => {
             onChange={handleInputChange}
             placeholder="Poštanski kod"
           />
-          <div>
+          <div className="location-center">
             <button type="submit">Dodaj</button>
           </div>
         </form>
@@ -242,7 +242,7 @@ const Lokacije = ({ onSelectLocation }) => {
                 </div>
               </div>
             ) : (
-              <div>
+              <div className="location-center-second">
                 <button onClick={() => handleIzmeniLokaciju(lokacija)}>
                   Izmeni
                 </button>

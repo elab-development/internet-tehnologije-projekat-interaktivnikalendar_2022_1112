@@ -19,16 +19,18 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="users-container">
-      <h2>Lista korisnika</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <strong>{user.name}</strong> - {user.email}
-            <Link to={`/users/${user.id}`}> Prikaži detalje</Link>
-          </li>
-        ))}
-      </ul>
+    <div className="container">
+      <div className="users-container">
+        <h2>Lista korisnika</h2>
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>
+              <strong>{user.name}</strong> - {user.email}
+              <Link to={`/users/${user.id}`}> Prikaži detalje</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

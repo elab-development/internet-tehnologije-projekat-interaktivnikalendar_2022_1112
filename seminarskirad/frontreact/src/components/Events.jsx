@@ -70,10 +70,6 @@ const Events = () => {
       const eventData = responseEvents.data;
       setEvents(eventData.data);
       console.log(responseEvents.data.data);
-
-      /*const responseLocations = await axios.get('http://localhost:8000/api/lokacije');
-      const locationData = responseLocations.data;
-      setLocations(locationData);*/
     } catch (error) {
       console.error("Greška prilikom dohvatanja događaja ili lokacija:", error);
     } finally {
@@ -115,7 +111,6 @@ const Events = () => {
   };
 
   const handleUpdateEvent = async (d) => {
-    //const user = getUserObject();
     try {
       const token = getToken();
       if (!token) {
@@ -207,93 +202,101 @@ const Events = () => {
   };
 
   if (loading) {
-    return <div>Učitavanje događaja...</div>;
+    return <div className="container">Učitavanje događaja...</div>;
   }
 
   if (!events || events.length === 0) {
-    return <div>Nema sačuvanih događaja.</div>;
+    return (
+      <div className="container">
+        {" "}
+        Događaji se ne prikazuju administratorima i neautorizovanim korisnicima.
+      </div>
+    );
   }
 
   return (
-    <div className="events-container">
-      <div className="export-button">
-        <button onClick={handleExportICS}>Eksportuj .ics</button>
+    <div className="container">
+      <h1>Svi događaji</h1>
+      <div className="events-container">
+        <div className="export-button">
+          <button onClick={handleExportICS}>Eksportuj .ics</button>
+        </div>
+        <ul>
+          {events.map((event) => (
+            <li key={event.id} className="event-item">
+              {editingEventId === event.id ? (
+                <div className="edit-event-form">
+                  <input
+                    type="text"
+                    name="naziv"
+                    value={updatedEvent.naziv || event.naziv}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="opis"
+                    value={updatedEvent.opis || event.opis}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <input
+                    type="date"
+                    name="datum"
+                    value={
+                      updatedEvent.datum || formatDate(new Date(event.datum))
+                    }
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <div>
+                    <button onClick={() => handleUpdateEvent(event)}>
+                      Sačuvaj
+                    </button>
+                    <button onClick={() => handleCancelEdit()}>Odustani</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="event-details">
+                  <div>Datum: {formatDate(new Date(event.datum))}</div>
+                  <div>Naziv: {event.naziv}</div>
+                  <div>Opis: {event.opis}</div>
+                  <div>Naziv lokacije: {event.lokacija_id.naziv}</div>
+                  <div>Kreirao korisnik: {event.user_id.name}</div>
+                  <div>
+                    <a
+                      className="btn"
+                      target="_blank"
+                      href={`https://calendar.google.com/calendar/u/0/r/eventedit?text=${window.encodeURIComponent(
+                        event.naziv
+                      )}&location=${window.encodeURIComponent(
+                        event.lokacija_id.naziv
+                      )}&details=${window.encodeURIComponent(
+                        event.opis
+                      )}&dates=${window.encodeURIComponent(
+                        formatDateGoogle(new Date(event.datum))
+                      )}`}
+                    >
+                      Dodaj u Google kalendar
+                    </a>
+                  </div>
+                  <div className="button-container">
+                    <button onClick={() => setEditingEventId(event.id)}>
+                      Izmeni
+                    </button>
+                    <button onClick={() => handleDeleteEvent(event.id)}>
+                      Obriši
+                    </button>
+                    <button onClick={() => sendNotificationEmail(event.id)}>
+                      Pošalji notifikaciju na email
+                    </button>
+                  </div>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul>
-        {events.map((event) => (
-          <li key={event.id} className="event-item">
-            {editingEventId === event.id ? (
-              <div className="edit-event-form">
-                <input
-                  type="text"
-                  name="naziv"
-                  value={updatedEvent.naziv || event.naziv}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="opis"
-                  value={updatedEvent.opis || event.opis}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  type="date"
-                  name="datum"
-                  value={
-                    updatedEvent.datum || formatDate(new Date(event.datum))
-                  }
-                  onChange={handleInputChange}
-                  required
-                />
-                <div>
-                  <button onClick={() => handleUpdateEvent(event)}>
-                    Sačuvaj
-                  </button>
-                  <button onClick={() => handleCancelEdit()}>Odustani</button>
-                </div>
-              </div>
-            ) : (
-              <div className="event-details">
-                <div>Datum: {formatDate(new Date(event.datum))}</div>
-                <div>Naziv: {event.naziv}</div>
-                <div>Opis: {event.opis}</div>
-                <div>Naziv lokacije: {event.lokacija_id.naziv}</div>
-                <div>Kreirao korisnik: {event.user_id.name}</div>
-                <div>
-                  <a
-                    className="btn"
-                    target="_blank"
-                    href={`https://calendar.google.com/calendar/u/0/r/eventedit?text=${window.encodeURIComponent(
-                      event.naziv
-                    )}&location=${window.encodeURIComponent(
-                      event.lokacija_id.naziv
-                    )}&details=${window.encodeURIComponent(
-                      event.opis
-                    )}&dates=${window.encodeURIComponent(
-                      formatDateGoogle(new Date(event.datum))
-                    )}`}
-                  >
-                    Dodaj u Google kalendar
-                  </a>
-                </div>
-                <div className="button-container">
-                  <button onClick={() => setEditingEventId(event.id)}>
-                    Izmeni
-                  </button>
-                  <button onClick={() => handleDeleteEvent(event.id)}>
-                    Obriši
-                  </button>
-                  <button onClick={() => sendNotificationEmail(event.id)}>
-                    Pošalji notifikaciju na email
-                  </button>
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

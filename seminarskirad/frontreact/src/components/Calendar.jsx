@@ -23,11 +23,14 @@ const Calendar = ({ onDateClick }) => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
     const totalDays = daysInMonth(year, month);
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+    // Izračunajte koji je dan u nedelji prvi dan meseca, ali sa ponedeljkom kao 0.
+    const firstDayOfMonth = (new Date(year, month, 1).getDay() + 6) % 7;
 
     let data = [];
     let dayCounter = 1;
 
+    // Postavite broj nedelja (može biti do 6).
     for (let i = 0; i < 6; i++) {
       let week = [];
       for (let j = 0; j < 7; j++) {
@@ -95,7 +98,7 @@ const Calendar = ({ onDateClick }) => {
         <table className="calendar">
           <thead>
             <tr>
-              {["Ned", "Pon", "Uto", "Sre", "Čet", "Pet", "Sub"].map(
+              {["Pon", "Uto", "Sre", "Čet", "Pet", "Sub", "Ned"].map(
                 (day, index) => (
                   <th key={index}>{day}</th>
                 )
@@ -119,7 +122,7 @@ const Calendar = ({ onDateClick }) => {
                     onClick={() => date && handleDateClick(date)}
                   >
                     {date ? (
-                      <div>
+                      <div className="calendar-tr">
                         <span>{date.getDate()}</span>
                       </div>
                     ) : (

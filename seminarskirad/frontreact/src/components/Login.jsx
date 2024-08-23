@@ -71,12 +71,14 @@ const Login = ({ onLogin }) => {
         <p
           onClick={handleRegistration}
           style={{ cursor: "pointer", color: "#60869e" }}
+          className="login-p"
         >
           Registruj se
         </p>
         <p
           onClick={handleForgotPassword}
           style={{ cursor: "pointer", color: "#60869e" }}
+          className="login-p"
         >
           Zaboravljena lozinka?
         </p>
