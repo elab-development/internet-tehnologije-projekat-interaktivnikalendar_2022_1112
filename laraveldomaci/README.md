@@ -12,7 +12,8 @@ Radi ispunjavanja zahteva viših ocena implementirana je kompletna izrada seeder
 
 ### Inicijalno podešavanje
 ```
-cd backend
+cd laraveldomaci
+composer global require laravel/installer
 composer install
 php artisan migrate:fresh --seed
 php artisan serve
