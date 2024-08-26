@@ -1,8 +1,14 @@
-# React + Vite
+# Interaktivni kalendar - React domaći
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikacija je kreirana naU ovom radu je kreirana ReactJS aplikacija koja ima za cilj da korisniku omogući interaktivno iskustvo u radu sa kalendarom. Korisnik može na jednostavan način zakazivati svoje nove događaje, prikazivati i ažurirati postojeće događaje novim informacijama, kao i brisati svoje unapred zakazane događaje.
 
-Currently, two official plugins are available:
+Projekat se sastoji iz ukupno 3 stranica, od kojih je stranica sa kalendarom istaknuta najvećim brojem funkcionalnosti. Sa obzirom da se radi u frontend aplikaciji, obezbeđen je rad sa lokalnom memorijom kako bi se u okviru sesije programa pamtili određeni objekti podataka. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Pokretanje projekta
+
+```
+cd reactdomaci
+
+npm install
+npm run dev
+```
