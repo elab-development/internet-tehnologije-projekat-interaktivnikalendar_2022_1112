@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import axios from "axios";
+import { getToken } from "../context/AuthContext";
 import { GrCaretNext } from "react-icons/gr";
 import { GrCaretPrevious } from "react-icons/gr";
 import Form from "./Form";
@@ -12,12 +14,34 @@ const Calendar = ({ onDateClick }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [events, setEvents] = useState([]);
-
-  const { locations } = useLocationContext();
+  const { locations, addLocation } = useLocationContext();
+  const [lokacije, setLokacije] = useState([]);
 
   const daysInMonth = (year, month) => {
     return new Date(year, month + 1, 0).getDate();
   };
+
+  const fetchLokacije = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/lokacije?id=1",
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      const fetchedLocations = response.data.lokacije;
+      fetchedLocations.forEach((location) => addLocation(location));
+      setLokacije(fetchedLocations);
+    } catch (error) {
+      console.error("Greška prilikom dohvatanja lokacija:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLokacije();
+  }, [fetchLokacije]);
 
   const getMonthData = () => {
     const year = currentMonth.getFullYear();
