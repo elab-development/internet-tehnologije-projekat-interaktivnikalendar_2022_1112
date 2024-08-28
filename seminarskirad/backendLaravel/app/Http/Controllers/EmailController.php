@@ -31,7 +31,6 @@ class EmailController extends Controller
             return response()->json(['error' => 'Dogadjaj nije pronadjen'], 404);
         }
         
-        
         // Kreiranje kalendara
         $calendar = Calendar::create($event->naziv);
         

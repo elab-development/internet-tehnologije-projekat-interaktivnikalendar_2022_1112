@@ -50,7 +50,6 @@ const formattedDateForApi = (date) =>
 
 const Events = () => {
   const [events, setEvents] = useState([]);
-  //const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingEventId, setEditingEventId] = useState(null);
   const [updatedEvent, setUpdatedEvent] = useState({});
@@ -67,9 +66,19 @@ const Events = () => {
           },
         }
       );
-      const eventData = responseEvents.data;
-      setEvents(eventData.data);
-      console.log(responseEvents.data.data);
+      let eventData = responseEvents.data.data;
+
+      console.log("Event Data:", eventData); // Check the structure
+
+      if (eventData && eventData.length > 0) {
+        // Sort events by datum (date)
+        eventData.sort((a, b) => {
+          console.log(`Comparing dates: ${a.datum} and ${b.datum}`);
+          return new Date(b.datum) - new Date(a.datum);
+        });
+      }
+
+      setEvents(eventData);
     } catch (error) {
       console.error("Greška prilikom dohvatanja događaja ili lokacija:", error);
     } finally {

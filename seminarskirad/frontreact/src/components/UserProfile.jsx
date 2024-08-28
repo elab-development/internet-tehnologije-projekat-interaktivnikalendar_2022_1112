@@ -22,7 +22,7 @@ const UserProfile = () => {
   }, [userId]);
 
   if (!user) {
-    return <div>Učitavanje...</div>;
+    return <div className="user-profile-container">Učitavanje...</div>;
   }
 
   return (
