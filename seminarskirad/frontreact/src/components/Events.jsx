@@ -126,8 +126,10 @@ const Events = () => {
         alert("Korisnik nije pravilno prijavljen!");
         return;
       }
+
       console.log(user.id);
       console.log(d);
+
       if (user.id !== d.user_id.id) {
         alert("Korisnik može menjati samo svoje događaje!");
         return;
@@ -150,18 +152,8 @@ const Events = () => {
       );
 
       if (response.status === 200) {
-        const updatedEvents = events.map((event) => {
-          if (event.id === d.id) {
-            return {
-              ...event,
-              naziv: updatedEventData.naziv,
-              datum: updatedEventData.datum,
-              opis: updatedEventData.opis,
-            };
-          }
-          return event;
-        });
-        setEvents(updatedEvents);
+        // Fetch events again after successful update
+        await fetchEvents();
 
         setEditingEventId(null);
         setUpdatedEvent({});
